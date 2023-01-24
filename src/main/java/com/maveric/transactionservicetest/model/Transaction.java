@@ -1,6 +1,7 @@
 package com.maveric.transactionservicetest.model;
 
 import com.maveric.transactionservicetest.constants.Type;
+
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
