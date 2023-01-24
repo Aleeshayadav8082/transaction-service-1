@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor(access = AccessLevel.PUBLIC)
-@Document(collection = "transaction-service")
+@Document(collection = "transaction")
 public class Transaction {
 
     @Id
