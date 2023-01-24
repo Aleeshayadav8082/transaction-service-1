@@ -1,10 +1,11 @@
 package com.maveric.transactionservicetest.dto;
 
-import com.maveric.transactionservicetest.constants.Currency;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class ErrorDto {
-    private String id;
-    private String amount;
-    private Currency currency;
-    private String accountId;
+    private String code;
+    private String message;
 }
