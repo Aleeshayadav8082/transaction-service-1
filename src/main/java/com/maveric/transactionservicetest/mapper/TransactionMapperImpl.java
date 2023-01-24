@@ -4,40 +4,29 @@ import com.maveric.transactionservicetest.dto.TransactionDto;
 import com.maveric.transactionservicetest.model.Transaction;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
-public class TransactionMapperImpl implements TransactionMapper{
-    @Override
-    public Transaction map(TransactionDto transactionDto) {
-        return new Transaction(
-                transactionDto.get_id(),
-                transactionDto.getAccountId(),
-                transactionDto.getType(),
-                transactionDto.getAmount(),
-                transactionDto.getCreatedAt()
-        );
+public class TransactionMapperImpl {
+    public Transaction dtoToModel(TransactionDto transactionDto) {
+        Transaction transaction = new Transaction();
+
+        transaction.set_id(transactionDto.get_id());
+        transaction.setAccountId(transactionDto.getAccountId());
+        transaction.setAmount(transactionDto.getAmount());
+        transaction.setType(transactionDto.getType());
+        transaction.setCreatedAt(transactionDto.getCreatedAt());
+
+        return transaction;
     }
 
-    @Override
-    public TransactionDto map(Transaction transaction) {
-        return new TransactionDto(
-                transaction.get_id(),
-                transaction.getAccountId(),
-                transaction.getType(),
-                transaction.getAmount(),
-                transaction.getCreatedAt()
-        );
-    }
+    public TransactionDto modelToDto(Transaction transaction){
+        TransactionDto transactionDto = new TransactionDto();
 
-    @Override
-    public List<Transaction> map(List<TransactionDto> transactions) {
-        List<Transaction> list = new ArrayList<Transaction>(transactions.size());
-        for(TransactionDto transactionDto:transactions)
-        {
-            list.add(map(transactionDto));
-        }
-        return list;
+        transactionDto.set_id(transaction.get_id());
+        transactionDto.setAmount(transaction.getAmount());
+        transactionDto.setType(transaction.getType());
+        transactionDto.setAccountId(transaction.getAccountId());
+        transactionDto.setCreatedAt(transaction.getCreatedAt());
+
+        return transactionDto;
     }
 }

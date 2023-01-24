@@ -1,31 +1,34 @@
 package com.maveric.transactionservicetest.service;
 
-import com.maveric.transactionservicetest.dto.TransactionDto;
-import com.maveric.transactionservicetest.mapper.TransactionMapper;
 import com.maveric.transactionservicetest.mapper.TransactionMapperImpl;
+import com.maveric.transactionservicetest.dto.TransactionDto;
 import com.maveric.transactionservicetest.model.Transaction;
 import com.maveric.transactionservicetest.repository.TransactionRepository;
+import com.maveric.transactionservicetest.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import static com.maveric.transactionservicetest.constants.Constants.getCurrentDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
+    @Autowired
+    TransactionRepository transactionRepository;
 
     @Autowired
-    private TransactionRepository repository;
-
-    @Autowired
-    private TransactionMapper mapper;
+    TransactionMapperImpl transactionMapper;
 
     @Override
-    public TransactionDto createTransaction(TransactionDto transactionDto) {
-        Transaction transaction = mapper.map(transactionDto);
-        Transaction transactionResult = repository.save(transaction);
-        TransactionDto transactionDtoResult = mapper.map(transactionResult);
-        //Adding CreatedTime
-        transactionDtoResult.setCreatedAt(getCurrentDateTime());
-        return transactionDtoResult;
+    public List<TransactionDto> getTransactionByAccountId(int page, int pageSize, String accountId) {
+        Pageable pageable = PageRequest.of(page, pageSize);
+        Page<Transaction> transactionPage = transactionRepository.findTransactionByAccountId(pageable, accountId);
+
+        List<Transaction> transactionList = transactionPage.getContent();
+        return transactionList.stream().map(transaction
+                -> transactionMapper.modelToDto(transaction)).collect(Collectors.toList());
     }
 }

@@ -1,22 +1,27 @@
 package com.maveric.transactionservicetest.model;
 
 import com.maveric.transactionservicetest.constants.Type;
-import lombok.*;
-import org.springframework.data.annotation.Id;
+import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import java.time.LocalDateTime;
+
 @Data
-@NoArgsConstructor
-@Builder
-@AllArgsConstructor(access = AccessLevel.PUBLIC)
 @Document(collection = "transaction")
 public class Transaction {
 
     @Id
     private String _id;
-    private String accountId;
-    private Type type;
-    private Number amount;
-    private String createdAt;
 
+    private String accountId;
+
+    private Number amount;
+
+    @Enumerated(EnumType.STRING)
+    private Type type;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 }

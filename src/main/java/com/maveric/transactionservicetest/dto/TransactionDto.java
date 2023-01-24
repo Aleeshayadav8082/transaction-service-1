@@ -6,6 +6,7 @@ import lombok.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -20,6 +21,5 @@ public class TransactionDto {
     @NotNull(message = "Amount required")
     @Min(value=1,message = "Amount cannot be less than or equal to zero")
     private Number amount;
-    private String createdAt;
-    //private Balance balance;
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
