@@ -1,12 +1,12 @@
 package com.maveric.transactionservicetest.dto;
 
 import com.maveric.transactionservicetest.constants.Type;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Data

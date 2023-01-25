@@ -2,12 +2,12 @@ package com.maveric.transactionservicetest.model;
 
 import com.maveric.transactionservicetest.constants.Type;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Data
