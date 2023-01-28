@@ -6,7 +6,6 @@ import com.maveric.transactionservicetest.exception.AccountIdMismatchException;
 import com.maveric.transactionservicetest.exception.TransactionIdNotFoundException;
 import com.maveric.transactionservicetest.model.Transaction;
 import com.maveric.transactionservicetest.repository.TransactionRepository;
-import com.maveric.transactionservicetest.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -31,11 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
             Transaction transaction = transactionMapper.dtoToModel(transactionDto);
             return transactionMapper.modelToDto(transactionRepository.save(transaction));
         } else {
-            try {
-                throw new AccountIdMismatchException("The account ID " + accountId + " mismatched with the provided data");
-            } catch (AccountIdMismatchException e) {
-                throw new RuntimeException(e);
-            }
+            throw new AccountIdMismatchException("The account ID " + accountId + " is not available");
         }
     }
 
@@ -45,7 +39,7 @@ public class TransactionServiceImpl implements TransactionService {
         Page<Transaction> transactionPage = transactionRepository.findTransactionByAccountId(pageable, accountId);
 
         List<Transaction> transactionList = transactionPage.getContent();
-        return transactionList.stream().map(transaction -> transactionMapper.modelToDto(transaction)).collect(Collectors.toList());
+        return transactionList.stream().map(transaction -> transactionMapper.modelToDto(transaction)).toList();
     }
 
     @Override
@@ -56,7 +50,7 @@ public class TransactionServiceImpl implements TransactionService {
         if(accountId.equals(transaction.getAccountId())) {
             return transactionMapper.modelToDto(transaction);
         } else {
-            throw new AccountIdMismatchException("Account Id not available");
+            throw new AccountIdMismatchException("Account Id " + accountId + " not available");
         }
     }
 
@@ -68,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
         if(accountId.equals(transaction.getAccountId())) {
             transactionRepository.deleteById(transactionId);
         } else {
-            throw new AccountIdMismatchException("Account ID not available");
+            throw new AccountIdMismatchException("Account Id " + accountId + " not available");
         }
     }
 }
