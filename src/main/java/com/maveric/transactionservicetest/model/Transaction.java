@@ -1,7 +1,6 @@
 package com.maveric.transactionservicetest.model;
 
 import com.maveric.transactionservicetest.constants.Type;
-
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;

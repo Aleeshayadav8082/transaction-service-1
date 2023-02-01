@@ -1,4 +1,4 @@
-package com.maveric.transactionservicetest.dto;
+package com.maveric.transactionservice.dto;
 
 import lombok.Getter;
 import lombok.Setter;

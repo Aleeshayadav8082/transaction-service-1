@@ -3,9 +3,10 @@ package com.maveric.transactionservicetest.service;
 import com.maveric.transactionservicetest.mapper.TransactionMapperImpl;
 import com.maveric.transactionservicetest.dto.TransactionDto;
 import com.maveric.transactionservicetest.exception.AccountIdMismatchException;
-import com.maveric.transactionservicetest.exception.TransactionIdNotFoundException;
+import com.maveric.transactionservice.exception.TransactionIdNotFoundException;
 import com.maveric.transactionservicetest.model.Transaction;
 import com.maveric.transactionservicetest.repository.TransactionRepository;
+import com.maveric.transactionservicetest.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,14 +21,14 @@ public class TransactionServiceImpl implements TransactionService {
     TransactionRepository transactionRepository;
 
     @Autowired
-    TransactionMapperImpl transactionMapper;
+    TransactionMapperImpl transactionMapperimpl;
 
     @Override
 
     public TransactionDto createTransaction(TransactionDto transactionDto, String accountId) {
         if (accountId.equals(transactionDto.getAccountId())) {
-            Transaction transaction = transactionMapper.dtoToModel(transactionDto);
-            return transactionMapper.modelToDto(transactionRepository.save(transaction));
+            Transaction transaction = transactionMapperimpl.dtoToModel(transactionDto);
+            return transactionMapperimpl.modelToDto(transactionRepository.save(transaction));
         } else {
             throw new AccountIdMismatchException("The account ID " + accountId + " is not available");
         }
@@ -39,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
         Page<Transaction> transactionPage = transactionRepository.findTransactionByAccountId(pageable, accountId);
 
         List<Transaction> transactionList = transactionPage.getContent();
-        return transactionList.stream().map(transaction -> transactionMapper.modelToDto(transaction)).toList();
+        return transactionList.stream().map(transaction -> transactionMapperimpl.modelToDto(transaction)).toList();
     }
 
     @Override
@@ -48,7 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
                 () -> new TransactionIdNotFoundException("Transaction id not available")
         );
         if(accountId.equals(transaction.getAccountId())) {
-            return transactionMapper.modelToDto(transaction);
+            return transactionMapperimpl.modelToDto(transaction);
         } else {
             throw new AccountIdMismatchException("Account Id " + accountId + " not available");
         }

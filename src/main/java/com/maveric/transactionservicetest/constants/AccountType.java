@@ -1,6 +1,7 @@
 package com.maveric.transactionservicetest.constants;
 
-public enum Type {
-    CREDIT,
-    DEBIT
+public enum AccountType {
+    CURRENT,
+
+    SAVINGS
 }

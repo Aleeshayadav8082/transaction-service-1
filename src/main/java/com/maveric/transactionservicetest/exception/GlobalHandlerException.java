@@ -1,7 +1,9 @@
 package com.maveric.transactionservicetest.exception;
 
 import com.maveric.transactionservicetest.constants.MessageConstant;
-import com.maveric.transactionservicetest.dto.ErrorDto;
+import com.maveric.transactionservice.dto.ErrorDto;
+import feign.FeignException;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -36,6 +38,28 @@ public class GlobalHandlerException extends Exception {
     public ResponseEntity<ErrorDto> handleTransactionIdNotFoundException(TransactionIdNotFoundException e) {
         ErrorDto error = getError(e.getMessage(), String.valueOf(HttpStatus.NOT_FOUND.value()));
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TransactionAmountException.class)
+    public ResponseEntity<ErrorDto> handleTransactionAmountException(TransactionAmountException e) {
+        ErrorDto error = getError(e.getMessage(), String.valueOf(HttpStatus.NOT_FOUND.value()));
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FeignException.NotFound.class)
+    public ResponseEntity<ErrorDto> handleFeignExceptionNotFound(FeignException e, HttpServletResponse response) {
+        String message = e.contentUTF8();
+        String decode = (String) e.contentUTF8().subSequence(message.lastIndexOf(":\""), message.length()-2);
+        ErrorDto error = getError(decode.replace(":\"", ""), String.valueOf(HttpStatus.NOT_FOUND.value()));
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FeignException.BadRequest.class)
+    public ResponseEntity<ErrorDto> handleFeignExceptionBadRequest(FeignException e, HttpServletResponse response) {
+        String message = e.contentUTF8();
+        String decode = (String) e.contentUTF8().subSequence(message.lastIndexOf(":\""), message.length()-2);
+        ErrorDto error = getError(decode.replace(":\"", ""), String.valueOf(HttpStatus.BAD_REQUEST.value()));
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     private ErrorDto getError(String message , String code){

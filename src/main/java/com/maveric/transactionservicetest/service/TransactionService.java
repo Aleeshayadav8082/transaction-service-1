@@ -2,7 +2,7 @@ package com.maveric.transactionservicetest.service;
 
 import com.maveric.transactionservicetest.dto.TransactionDto;
 import com.maveric.transactionservicetest.exception.AccountIdMismatchException;
-import com.maveric.transactionservicetest.exception.TransactionIdNotFoundException;
+import com.maveric.transactionservice.exception.TransactionIdNotFoundException;
 import java.util.List;
 public interface TransactionService {
 
