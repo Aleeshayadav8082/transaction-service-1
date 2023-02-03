@@ -2,7 +2,7 @@ package com.maveric.transactionservicetest.service;
 
 import com.maveric.transactionservicetest.dto.TransactionDto;
 import com.maveric.transactionservicetest.exception.AccountIdMismatchException;
-import com.maveric.transactionservice.exception.TransactionIdNotFoundException;
+import com.maveric.transactionservicetest.exception.TransactionIdNotFoundException;
 import java.util.List;
 public interface TransactionService {
 
@@ -13,4 +13,6 @@ public interface TransactionService {
     TransactionDto getTransactionIdByAccountId(String accountId, String transactionId) throws TransactionIdNotFoundException, AccountIdMismatchException;
 
     void deleteTransactionIdByAccountId(String accountId, String transactionId) throws TransactionIdNotFoundException, AccountIdMismatchException;
+
+    void deleteAllTransactionsByAccountId(String accountId);
 }

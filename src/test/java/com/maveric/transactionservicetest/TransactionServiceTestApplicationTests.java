@@ -1,6 +1,8 @@
 package com.maveric.transactionservicetest;
 
+import com.maveric.transactionservicetest.constants.AccountType;
 import com.maveric.transactionservicetest.constants.Type;
+import com.maveric.transactionservicetest.dto.AccountDto;
 import com.maveric.transactionservicetest.dto.TransactionDto;
 import com.maveric.transactionservicetest.model.Transaction;
 import org.junit.jupiter.api.Test;
@@ -9,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 
 @SpringBootTest
-public
-class TransactionServiceTestApplicationTests {
+public class TransactionServiceTestApplicationTests {
 
 	@Test
 	void contextLoads() {
@@ -55,6 +56,14 @@ class TransactionServiceTestApplicationTests {
 		transactionDto.setAmount(872.32);
 		transactionDto.setCreatedAt(LocalDateTime.now());
 		return transactionDto;
+	}
+
+	public static AccountDto getAccountDto(){
+		AccountDto accountDto = new AccountDto();
+		accountDto.set_id("1234");
+		accountDto.setCustomerId("1234");
+		accountDto.setType(AccountType.CURRENT);
+		return accountDto;
 	}
 
 }
