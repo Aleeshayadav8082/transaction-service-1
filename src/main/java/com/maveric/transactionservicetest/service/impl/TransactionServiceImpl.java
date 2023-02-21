@@ -1,4 +1,4 @@
-package com.maveric.transactionservicetest.service;
+package com.maveric.transactionservicetest.service.impl;
 
 import com.maveric.transactionservicetest.mapper.TransactionMapperImpl;
 import com.maveric.transactionservicetest.dto.TransactionDto;
